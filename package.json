@@ -1,0 +1,139 @@
+{
+  "name": "branch-diff-sidebar",
+  "displayName": "Branch Diff",
+  "description": "Sidebar view of changes on the current branch vs a selectable base branch (default main), including uncommitted edits.",
+  "version": "0.1.0",
+  "publisher": "asirol",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asirol/branch-diff-sidebar"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["SCM Providers", "Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Branch Diff",
+      "properties": {
+        "branchDiff.defaultBaseBranch": {
+          "type": "string",
+          "default": "main",
+          "description": "Default base branch when none is stored for this workspace."
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "branchDiff",
+          "title": "Branch Diff",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "branchDiff": [
+        {
+          "id": "branchDiff.changes",
+          "name": "Changes"
+        },
+        {
+          "id": "branchDiff._layout",
+          "name": "",
+          "visibility": "hidden"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "branchDiff.selectBase",
+        "title": "Select Base Branch",
+        "icon": "$(git-branch)"
+      },
+      {
+        "command": "branchDiff.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "branchDiff.toggleViewMode",
+        "title": "Toggle Tree / List View",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "branchDiff.openDiff",
+        "title": "Open Diff"
+      },
+      {
+        "command": "branchDiff.openFile",
+        "title": "Open File",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "branchDiff.toggleExpandAll",
+        "title": "Collapse All Folders",
+        "icon": "$(collapse-all)"
+      },
+      {
+        "command": "branchDiff.expandAll",
+        "title": "Expand All Folders",
+        "icon": "$(expand-all)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "branchDiff.selectBase",
+          "when": "view == branchDiff.changes",
+          "group": "navigation@1"
+        },
+        {
+          "command": "branchDiff.refresh",
+          "when": "view == branchDiff.changes",
+          "group": "navigation@2"
+        },
+        {
+          "command": "branchDiff.toggleViewMode",
+          "when": "view == branchDiff.changes",
+          "group": "navigation@3"
+        },
+        {
+          "command": "branchDiff.toggleExpandAll",
+          "when": "view == branchDiff.changes && branchDiff.viewModeTree && branchDiff.directoriesExpanded",
+          "group": "navigation@4"
+        },
+        {
+          "command": "branchDiff.expandAll",
+          "when": "view == branchDiff.changes && branchDiff.viewModeTree && !branchDiff.directoriesExpanded",
+          "group": "navigation@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "branchDiff.openFile",
+          "when": "view == branchDiff.changes && viewItem == branchDiffFile",
+          "group": "inline@1"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "package": "vsce package --no-dependencies",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.25.0",
+    "ovsx": "^0.10.1",
+    "typescript": "^5.6.0"
+  }
+}

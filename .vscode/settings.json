@@ -1,0 +1,8 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["tsconfig.json", "tsconfig.*.json"],
+      "url": "./schemas/tsconfig.schema.json"
+    }
+  ]
+}
