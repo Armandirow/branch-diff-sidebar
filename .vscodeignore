@@ -5,5 +5,7 @@ node_modules/**
 esbuild.mjs
 tsconfig.json
 .gitignore
+.env
+.env.*
 **/*.map
 **/.DS_Store
